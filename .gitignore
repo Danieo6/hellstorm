@@ -3,20 +3,20 @@
 .godot/
 
 # Ignore library files but not the gdextension file
-demo/bin/*
-!demo/bin/android
-demo/bin/android/*
-!demo/bin/android/.gitkeep
-!demo/bin/linux
-demo/bin/linux/*
-!demo/bin/linux/.gitkeep
-!demo/bin/macos
-demo/bin/macos/*
-!demo/bin/macos/.gitkeep
-!demo/bin/windows
-demo/bin/windows/*
-!demo/bin/windows/.gitkeep
-!demo/bin/*.gdextension
+demo/addons/hellstorm/bin/*
+!demo/addons/hellstorm/bin/android
+demo/addons/hellstorm/bin/android/*
+!demo/addons/hellstorm/bin/android/.gitkeep
+!demo/addons/hellstorm/bin/linux
+demo/addons/hellstorm/bin/linux/*
+!demo/addons/hellstorm/bin/linux/.gitkeep
+!demo/addons/hellstorm/bin/macos
+demo/addons/hellstorm/bin/macos/*
+!demo/addons/hellstorm/bin/macos/.gitkeep
+!demo/addons/hellstorm/bin/windows
+demo/addons/hellstorm/bin/windows/*
+!demo/addons/hellstorm/bin/windows/.gitkeep
+!demo/addons/hellstorm/bin/*.gdextension
 .sconsign*.dblite
 
 # Ignore custom.py

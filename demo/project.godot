@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="godot cpp template"
+config/name="HellStorm Demo - Shoot 'em up"
 run/main_scene="uid://dh0oj81pufivs"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+HellStorm="*res://addons/hellstorm/hellstorm.tscn"
 
 [dotnet]
 
@@ -21,4 +25,4 @@ project/assembly_name="godot cpp template"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/hellstorm/plugin.cfg", "res://addons/hellstormm/plugin.cfg")
+enabled=PackedStringArray("res://addons/hellstorm/plugin.cfg")

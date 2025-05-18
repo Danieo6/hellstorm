@@ -1,17 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dh0oj81pufivs"]
+[gd_scene load_steps=4 format=3 uid="uid://dh0oj81pufivs"]
 
 [ext_resource type="Script" uid="uid://c57n2cgj773tp" path="res://scripts/weapon.gd" id="1_2jas5"]
 [ext_resource type="ProjectileData" uid="uid://bujga780yx0bk" path="res://blue_laser.tres" id="2_n51mc"]
 [ext_resource type="Script" uid="uid://bdfwoc4pbglsh" path="res://scripts/debug_ui.gd" id="3_8lvy3"]
-[ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="4_wcwec"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ei00m"]
-size = Vector2(128, 128)
 
 [node name="Game" type="Node2D"]
 
 [node name="ExampleSpawner" type="Node2D" parent="."]
-position = Vector2(215, 332)
+position = Vector2(568, 316)
 script = ExtResource("1_2jas5")
 projectile = ExtResource("2_n51mc")
 
@@ -34,13 +30,3 @@ text = "FPS: 60"
 [node name="ProjectileCounter" type="Label" parent="DebugUI/VBoxContainer"]
 layout_mode = 2
 text = "Projectiles: 0"
-
-[node name="Obstacle" type="StaticBody2D" parent="."]
-position = Vector2(800, 330)
-collision_layer = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="Obstacle"]
-texture = ExtResource("4_wcwec")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle"]
-shape = SubResource("RectangleShape2D_ei00m")

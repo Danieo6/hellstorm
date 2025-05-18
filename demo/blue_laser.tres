@@ -1,0 +1,13 @@
+[gd_resource type="ProjectileData" load_steps=3 format=3 uid="uid://bujga780yx0bk"]
+
+[ext_resource type="Texture2D" uid="uid://ct0t3pteyxgff" path="res://assets/blue_laser.png" id="1_khcwj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_khcwj"]
+
+[resource]
+texture = ExtResource("1_khcwj")
+initial_angle = 1.55544e-43
+Motion/initial_linear_speed = 100.0
+Motion/acceleration = 0.0
+Physics/collision_shape = SubResource("CircleShape2D_khcwj")
+Physics/collision_mask = 2

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://d2ka6r37b3o25"]
+
+[node name="HellStorm" type="HellStormServer2D"]
