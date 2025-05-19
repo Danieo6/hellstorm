@@ -31,6 +31,12 @@ void ProjectileData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_collide_with_areas", "enable"), &ProjectileData::set_collide_with_areas);
 	ClassDB::bind_method(D_METHOD("is_collide_with_areas"), &ProjectileData::get_collide_with_areas);
 
+	// Behaviour
+	ClassDB::bind_method(D_METHOD("set_hit_callback_name", "name"), &ProjectileData::set_hit_callback_name);
+	ClassDB::bind_method(D_METHOD("get_hit_callback_name"), &ProjectileData::get_hit_callback_name);
+	ClassDB::bind_method(D_METHOD("set_meta", "meta"), &ProjectileData::set_meta);
+	ClassDB::bind_method(D_METHOD("get_meta"), &ProjectileData::get_meta);
+
 	// Display
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_texture", "get_texture");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "set_material", "get_material");
@@ -47,6 +53,10 @@ void ProjectileData::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "Physics/collision_mask", PROPERTY_HINT_LAYERS_2D_PHYSICS, ""), "set_collision_mask", "get_collision_mask");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/collide_with_bodies"), "set_collide_with_bodies", "is_collide_with_bodies");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/collide_with_areas"), "set_collide_with_areas", "is_collide_with_areas");
+
+	// Behaviour
+	ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "Behaviour/hit_callback_name"), "set_hit_callback_name", "get_hit_callback_name");
+	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "Behaviour/meta"), "set_meta", "get_meta");
 }
 
 // Display
@@ -138,6 +148,22 @@ void ProjectileData::set_collide_with_areas(const bool p_value) {
 
 bool ProjectileData::get_collide_with_areas() const {
 	return _collideWithAreas;
+}
+
+void ProjectileData::set_hit_callback_name(const StringName p_name) {
+	_hit_callback_name = p_name;
+}
+
+StringName ProjectileData::get_hit_callback_name() const {
+	return _hit_callback_name;
+}
+
+void ProjectileData::set_meta(const Dictionary p_meta) {
+	_meta = p_meta;
+}
+
+Dictionary ProjectileData::get_meta() const {
+	return _meta;
 }
 
 ProjectileData::ProjectileData() {

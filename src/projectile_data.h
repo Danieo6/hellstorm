@@ -18,13 +18,15 @@ class ProjectileData : public Resource {
 		float _initialLinearSpeed;
 		float _minLinearSpeed;
 		float _maxLinearSpeed;
-
 		float _acceleration;
 
 		Ref<Shape2D> _collisionShape;
 		unsigned int _collisionMask;
 		bool _collideWithBodies;
 		bool _collideWithAreas;
+
+		StringName _hit_callback_name = "_on_hellstorm_projectile_hit";
+		Dictionary _meta;
 
 	protected:
 		static void _bind_methods();
@@ -62,6 +64,12 @@ class ProjectileData : public Resource {
 
 		void set_collide_with_areas(const bool p_value);
 		bool get_collide_with_areas() const;
+
+		void set_hit_callback_name(const StringName p_name);
+		StringName get_hit_callback_name() const;
+
+		void set_meta(const Dictionary p_meta);
+		Dictionary get_meta() const;
 
 		ProjectileData();
 		~ProjectileData();

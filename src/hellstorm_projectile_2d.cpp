@@ -55,6 +55,12 @@ void HellStormProjectile2D::_check_for_collisions() {
 
 void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
 	_isQueuedForDeletion = true;
+
+	Object *collider = Object::cast_to<Object>(p_hit["collider"]);
+
+	if (collider->has_method(data->get_hit_callback_name())) {
+		collider->call(data->get_hit_callback_name(), data->get_meta());
+	}
 }
 
 void HellStormProjectile2D::destroy() {
