@@ -20,6 +20,8 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_max_linear_speed"), &HellStormProjectileData2D::get_max_linear_speed);
 	ClassDB::bind_method(D_METHOD("set_acceleration", "acceleration"), &HellStormProjectileData2D::set_acceleration);
 	ClassDB::bind_method(D_METHOD("get_acceleration"), &HellStormProjectileData2D::get_acceleration);
+	ClassDB::bind_method(D_METHOD("set_local_rotation_speed", "rotation_speed"), &HellStormProjectileData2D::set_local_rotation_speed);
+	ClassDB::bind_method(D_METHOD("get_local_rotation_speed"), &HellStormProjectileData2D::get_local_rotation_speed);
 
 	// Physics
 	ClassDB::bind_method(D_METHOD("set_collision_shape", "shape"), &HellStormProjectileData2D::set_collision_shape);
@@ -47,6 +49,7 @@ void HellStormProjectileData2D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/min_linear_speed"), "set_min_linear_speed", "get_min_linear_speed");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/max_linear_speed"), "set_max_linear_speed", "get_max_linear_speed");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/acceleration"), "set_acceleration", "get_acceleration");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/local_rotation_speed"), "set_local_rotation_speed", "get_local_rotation_speed");
 
 	// Physics
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "Physics/collision_shape", PROPERTY_HINT_RESOURCE_TYPE, "Shape2D"), "set_collision_shape", "get_collision_shape");
@@ -115,6 +118,14 @@ void HellStormProjectileData2D::set_acceleration(const float p_acceleration) {
 
 float HellStormProjectileData2D::get_acceleration() const {
 	return _acceleration;
+}
+
+void HellStormProjectileData2D::set_local_rotation_speed(const float p_local_rotation_speed) {
+	_local_rotation_speed = p_local_rotation_speed;
+}
+
+float HellStormProjectileData2D::get_local_rotation_speed() const {
+	return _local_rotation_speed;
 }
 
 // Physics

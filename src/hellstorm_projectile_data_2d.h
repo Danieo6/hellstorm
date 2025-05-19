@@ -19,6 +19,7 @@ class HellStormProjectileData2D : public Resource {
 		float _min_linear_speed;
 		float _max_linear_speed;
 		float _acceleration;
+		float _local_rotation_speed;
 
 		Ref<Shape2D> _collision_shape;
 		unsigned int _collision_mask;
@@ -52,6 +53,9 @@ class HellStormProjectileData2D : public Resource {
 
 		void set_acceleration(const float p_acceleration);
 		float get_acceleration() const;
+
+		void set_local_rotation_speed(const float p_local_rotation_speed);
+		float get_local_rotation_speed() const;
 
 		void set_collision_shape(const Ref<Shape2D> &p_shape);
 		Ref<Shape2D> get_collision_shape() const;

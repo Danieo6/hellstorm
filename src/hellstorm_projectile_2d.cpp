@@ -20,24 +20,31 @@ void HellStormProjectile2D::instantiate() {
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
 	_check_for_collisions();
 
-	float current_speed = data->get_initial_linear_speed() + data->get_acceleration() * _lifetime;
-	current_speed = std::clamp(current_speed, data->get_initial_linear_speed(), data->get_max_linear_speed());
+	float linear_speed = data->get_initial_linear_speed() + data->get_acceleration() * _lifetime;
+	linear_speed = std::clamp(linear_speed, data->get_initial_linear_speed(), data->get_max_linear_speed());
 
-	auto new_origin = transform.get_origin() + transform[0] * current_speed * p_delta;
+	auto new_origin = transform.get_origin() + transform[0] * linear_speed * p_delta;
 	transform.set_origin(new_origin);
 
 	_lifetime += p_delta;
 
-	_projectile_draw(p_idx);
+	_projectile_draw(p_idx, p_delta);
 }
 
-void HellStormProjectile2D::_projectile_draw(const int p_idx) {
+void HellStormProjectile2D::_projectile_draw(const int p_idx, const double p_delta) {
 	if (_is_queued_for_deletion) {
 		destroy();
 		return;
 	}
 
-	rs->canvas_item_set_transform(rid, transform);
+	auto rotation_speed =
+		Math::deg_to_rad(data->get_initial_angle()) +
+		Math::deg_to_rad(data->get_local_rotation_speed()) * _lifetime * p_delta;
+
+	auto texture_transform = transform;
+	texture_transform.set_rotation(rotation_speed);
+
+	rs->canvas_item_set_transform(rid, texture_transform);
 	rs->canvas_item_set_draw_index(rid, p_idx);
 }
 

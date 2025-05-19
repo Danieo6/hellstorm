@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include <godot_cpp/core/math.hpp>
 #include <godot_cpp/variant/rid.hpp>
 #include <godot_cpp/classes/rendering_server.hpp>
 #include <godot_cpp/classes/physics_server2d.hpp>
@@ -30,7 +31,7 @@ class HellStormProjectile2D {
 		double _lifetime = 0;
 		bool _is_queued_for_deletion = false;
 
-		void _projectile_draw(const int p_idx);
+		void _projectile_draw(const int p_idx, const double p_delta);
 		void _check_for_collisions();
 		void _handle_collision(const Dictionary &p_hit);
 
