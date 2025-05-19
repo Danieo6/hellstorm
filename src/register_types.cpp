@@ -6,7 +6,7 @@
 #include <godot_cpp/godot.hpp>
 
 #include "hellstorm_server_2d.h"
-#include "projectile_data.h"
+#include "hellstorm_projectile_data_2d.h"
 
 using namespace godot;
 
@@ -17,7 +17,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	}
 
 	GDREGISTER_CLASS(HellStormServer2D);
-	GDREGISTER_CLASS(ProjectileData);
+	GDREGISTER_CLASS(HellStormProjectileData2D);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {

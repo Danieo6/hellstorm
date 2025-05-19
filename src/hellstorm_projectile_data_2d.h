@@ -7,25 +7,25 @@
 
 using namespace godot;
 
-class ProjectileData : public Resource {
-	GDCLASS(ProjectileData, Resource);
+class HellStormProjectileData2D : public Resource {
+	GDCLASS(HellStormProjectileData2D, Resource);
 
 	private:
 		Ref<Texture2D> _texture;
 		Ref<Material> _material;
 		float _initial_angle;
 
-		float _initialLinearSpeed;
-		float _minLinearSpeed;
-		float _maxLinearSpeed;
+		float _initial_linear_speed;
+		float _min_linear_speed;
+		float _max_linear_speed;
 		float _acceleration;
 
-		Ref<Shape2D> _collisionShape;
-		unsigned int _collisionMask;
-		bool _collideWithBodies;
-		bool _collideWithAreas;
+		Ref<Shape2D> _collision_shape;
+		unsigned int _collision_mask;
+		bool _collide_with_bodies;
+		bool _collide_with_areas;
 
-		StringName _hit_callback_name = "_on_hellstorm_projectile_hit";
+		StringName _hit_callback_name;
 		Dictionary _meta;
 
 	protected:
@@ -71,6 +71,6 @@ class ProjectileData : public Resource {
 		void set_meta(const Dictionary p_meta);
 		Dictionary get_meta() const;
 
-		ProjectileData();
-		~ProjectileData();
+		HellStormProjectileData2D();
+		~HellStormProjectileData2D();
 };

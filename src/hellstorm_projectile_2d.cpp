@@ -1,7 +1,7 @@
 #include "./hellstorm_projectile_2d.h"
 
 void HellStormProjectile2D::instantiate() {
-	ERR_FAIL_COND_MSG(data.is_null(), "ProjectileData is not defined!");
+	ERR_FAIL_COND_MSG(data.is_null(), "HellStormProjectileData2D is not defined!");
 	ERR_FAIL_COND_MSG(data->get_collision_shape().is_null(), "Collision shape is not defined!");
 
 	rs->canvas_item_add_texture_rect(rid, _rect, data->get_texture()->get_rid());
@@ -20,11 +20,11 @@ void HellStormProjectile2D::instantiate() {
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
 	_check_for_collisions();
 
-	float currentSpeed = data->get_initial_linear_speed() + data->get_acceleration() * _lifetime;
-	currentSpeed = std::clamp(currentSpeed, data->get_initial_linear_speed(), data->get_max_linear_speed());
+	float current_speed = data->get_initial_linear_speed() + data->get_acceleration() * _lifetime;
+	current_speed = std::clamp(current_speed, data->get_initial_linear_speed(), data->get_max_linear_speed());
 
-	auto newOrigin = transform.get_origin() + transform[0] * currentSpeed * p_delta;
-	transform.set_origin(newOrigin);
+	auto new_origin = transform.get_origin() + transform[0] * current_speed * p_delta;
+	transform.set_origin(new_origin);
 
 	_lifetime += p_delta;
 
@@ -32,7 +32,7 @@ void HellStormProjectile2D::projectile_process(const int p_idx, const double p_d
 }
 
 void HellStormProjectile2D::_projectile_draw(const int p_idx) {
-	if (_isQueuedForDeletion) {
+	if (_is_queued_for_deletion) {
 		destroy();
 		return;
 	}
@@ -54,7 +54,7 @@ void HellStormProjectile2D::_check_for_collisions() {
 }
 
 void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
-	_isQueuedForDeletion = true;
+	_is_queued_for_deletion = true;
 
 	Object *collider = Object::cast_to<Object>(p_hit["collider"]);
 
@@ -64,28 +64,28 @@ void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
 }
 
 void HellStormProjectile2D::destroy() {
-	_isQueuedForDeletion = true;
+	_is_queued_for_deletion = true;
 	rs->canvas_item_clear(rid);
 	rs->free_rid(rid);
 }
 
 bool HellStormProjectile2D::is_queued_for_deletion() {
-	return _isQueuedForDeletion;
+	return _is_queued_for_deletion;
 }
 
 HellStormProjectile2D::HellStormProjectile2D(
-	const HellStormProjectileConfig2D &p_projectileConfig,
-	const Ref<ProjectileData> &p_projectileData
+	const HellStormProjectileConfig2D &p_projectile_config,
+	const Ref<HellStormProjectileData2D> &p_projectile_data
 ) {
 	rs = RenderingServer::get_singleton();
 	ps = PhysicsServer2D::get_singleton();
 
 	rid = rs->canvas_item_create();
-	data = p_projectileData;
+	data = p_projectile_data;
 
-	transform = p_projectileConfig.transform;
-	_canvas = p_projectileConfig.canvas;
-	_space = p_projectileConfig.space;
+	transform = p_projectile_config.transform;
+	_canvas = p_projectile_config.canvas;
+	_space = p_projectile_config.space;
 	_rect = Rect2(-data->get_texture()->get_size() / 2.0, data->get_texture()->get_size());
 }
 

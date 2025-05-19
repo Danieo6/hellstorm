@@ -8,7 +8,7 @@
 #include <godot_cpp/classes/physics_direct_space_state2d.hpp>
 #include <godot_cpp/classes/physics_shape_query_parameters2d.hpp>
 
-#include "projectile_data.h"
+#include "hellstorm_projectile_data_2d.h"
 
 using namespace godot;
 
@@ -28,7 +28,7 @@ class HellStormProjectile2D {
 		Ref<PhysicsShapeQueryParameters2D> _physics_query;
 
 		double _lifetime = 0;
-		bool _isQueuedForDeletion = false;
+		bool _is_queued_for_deletion = false;
 
 		void _projectile_draw(const int p_idx);
 		void _check_for_collisions();
@@ -36,7 +36,7 @@ class HellStormProjectile2D {
 
 	public:
 		RID rid;
-		Ref<ProjectileData> data;
+		Ref<HellStormProjectileData2D> data;
 		Transform2D transform;
 
 		void instantiate();
@@ -45,7 +45,7 @@ class HellStormProjectile2D {
 		void projectile_process(const int p_idx, const double p_delta);
 
 		HellStormProjectile2D(
-				const HellStormProjectileConfig2D &p_projectileConfig,
-				const Ref<ProjectileData> &p_projectileData);
+				const HellStormProjectileConfig2D &p_projectile_config,
+				const Ref<HellStormProjectileData2D> &p_projectile_data);
 		~HellStormProjectile2D();
 };
