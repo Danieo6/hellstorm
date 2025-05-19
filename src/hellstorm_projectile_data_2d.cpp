@@ -29,9 +29,11 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_collision_mask", "mask"), &HellStormProjectileData2D::set_collision_mask);
 	ClassDB::bind_method(D_METHOD("get_collision_mask"), &HellStormProjectileData2D::get_collision_mask);
 	ClassDB::bind_method(D_METHOD("set_collide_with_bodies", "enable"), &HellStormProjectileData2D::set_collide_with_bodies);
-	ClassDB::bind_method(D_METHOD("is_collide_with_bodies"), &HellStormProjectileData2D::get_collide_with_bodies);
+	ClassDB::bind_method(D_METHOD("get_collide_with_bodies"), &HellStormProjectileData2D::get_collide_with_bodies);
 	ClassDB::bind_method(D_METHOD("set_collide_with_areas", "enable"), &HellStormProjectileData2D::set_collide_with_areas);
-	ClassDB::bind_method(D_METHOD("is_collide_with_areas"), &HellStormProjectileData2D::get_collide_with_areas);
+	ClassDB::bind_method(D_METHOD("get_collide_with_areas"), &HellStormProjectileData2D::get_collide_with_areas);
+	ClassDB::bind_method(D_METHOD("set_enable_interpolation", "enable"), &HellStormProjectileData2D::set_enable_interpolation);
+	ClassDB::bind_method(D_METHOD("get_enable_interpolation"), &HellStormProjectileData2D::get_enable_interpolation);
 
 	// Behaviour
 	ClassDB::bind_method(D_METHOD("set_hit_callback_name", "name"), &HellStormProjectileData2D::set_hit_callback_name);
@@ -54,8 +56,9 @@ void HellStormProjectileData2D::_bind_methods() {
 	// Physics
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "Physics/collision_shape", PROPERTY_HINT_RESOURCE_TYPE, "Shape2D"), "set_collision_shape", "get_collision_shape");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "Physics/collision_mask", PROPERTY_HINT_LAYERS_2D_PHYSICS, ""), "set_collision_mask", "get_collision_mask");
-	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/collide_with_bodies"), "set_collide_with_bodies", "is_collide_with_bodies");
-	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/collide_with_areas"), "set_collide_with_areas", "is_collide_with_areas");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/collide_with_bodies"), "set_collide_with_bodies", "get_collide_with_bodies");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/collide_with_areas"), "set_collide_with_areas", "get_collide_with_areas");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Physics/enable_physics_interpolation"), "set_enable_interpolation", "get_enable_interpolation");
 
 	// Behaviour
 	ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "Behaviour/hit_callback_name"), "set_hit_callback_name", "get_hit_callback_name");
@@ -161,6 +164,14 @@ bool HellStormProjectileData2D::get_collide_with_areas() const {
 	return _collide_with_areas;
 }
 
+void HellStormProjectileData2D::set_enable_interpolation(const bool p_value) {
+	_enable_interpolation = p_value;
+}
+
+bool HellStormProjectileData2D::get_enable_interpolation() const {
+	return _enable_interpolation;
+}
+
 void HellStormProjectileData2D::set_hit_callback_name(const StringName p_name) {
 	_hit_callback_name = p_name;
 }
@@ -188,6 +199,7 @@ HellStormProjectileData2D::HellStormProjectileData2D() {
 	_collide_with_areas = false;
 
 	_hit_callback_name = "_on_hellstorm_projectile_hit";
+	_enable_interpolation = true;
 }
 
 HellStormProjectileData2D::~HellStormProjectileData2D() {}

@@ -25,6 +25,7 @@ class HellStormProjectileData2D : public Resource {
 		unsigned int _collision_mask;
 		bool _collide_with_bodies;
 		bool _collide_with_areas;
+		bool _enable_interpolation;
 
 		StringName _hit_callback_name;
 		Dictionary _meta;
@@ -68,6 +69,9 @@ class HellStormProjectileData2D : public Resource {
 
 		void set_collide_with_areas(const bool p_value);
 		bool get_collide_with_areas() const;
+
+		void set_enable_interpolation(const bool p_value);
+		bool get_enable_interpolation() const;
 
 		void set_hit_callback_name(const StringName p_name);
 		StringName get_hit_callback_name() const;

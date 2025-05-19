@@ -7,7 +7,7 @@ void HellStormProjectile2D::instantiate() {
 	rs->canvas_item_add_texture_rect(rid, _rect, data->get_texture()->get_rid());
 	rs->canvas_item_set_parent(rid, _canvas);
 	rs->canvas_item_set_transform(rid, transform);
-	rs->canvas_item_set_interpolated(rid, true);
+	rs->canvas_item_set_interpolated(rid, data->get_enable_interpolation());
 
 	_physics_query = Ref(memnew(PhysicsShapeQueryParameters2D));
 	_physics_query->set_shape_rid(data->get_collision_shape()->get_rid());
