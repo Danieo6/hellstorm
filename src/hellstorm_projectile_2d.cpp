@@ -60,7 +60,6 @@ void HellStormProjectile2D::_update_texture_region() {
 		if (data->get_enable_animation_loop()) {
 			_current_cell = 0;
 		} else {
-			UtilityFunctions::print(data->get_cell_count());
 			_current_cell = data->get_cell_count() - 1;
 		}
 	}
