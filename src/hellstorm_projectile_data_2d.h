@@ -12,8 +12,15 @@ class HellStormProjectileData2D : public Resource {
 
 	private:
 		Ref<Texture2D> _texture;
+
 		Ref<Material> _material;
+		int _cell_width;
+		int _cell_height;
+		int _cell_count;
+		int _current_cell;
 		float _initial_angle;
+		float _animation_speed;
+		bool _enable_animation_loop;
 
 		float _initial_linear_speed;
 		float _min_linear_speed;
@@ -30,6 +37,8 @@ class HellStormProjectileData2D : public Resource {
 		StringName _hit_callback_name;
 		Dictionary _meta;
 
+		void _on_texture_update();
+
 	protected:
 		static void _bind_methods();
 
@@ -39,6 +48,24 @@ class HellStormProjectileData2D : public Resource {
 
 		void set_material(const Ref<Material> &p_material);
 		Ref<Material> get_material() const;
+
+		void set_cell_width(int p_width);
+		int get_cell_width() const;
+
+		void set_cell_height(int p_height);
+		int get_cell_height() const;
+
+		void set_cell_count(int p_count);
+		int get_cell_count() const;
+
+		void set_current_cell(int p_cell);
+		int get_current_cell() const;
+
+		void set_animation_speed(float p_speed);
+		float get_animation_speed() const;
+
+		void set_enable_animation_loop(bool p_enable_loop);
+		bool get_enable_animation_loop() const;
 
 		void set_initial_angle(const float p_angle);
 		float get_initial_angle() const;

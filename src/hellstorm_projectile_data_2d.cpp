@@ -8,6 +8,18 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_texture"), &HellStormProjectileData2D::get_texture);
 	ClassDB::bind_method(D_METHOD("set_material", "material"), &HellStormProjectileData2D::set_material);
 	ClassDB::bind_method(D_METHOD("get_material"), &HellStormProjectileData2D::get_material);
+	ClassDB::bind_method(D_METHOD("set_cell_width", "width"), &HellStormProjectileData2D::set_cell_width);
+	ClassDB::bind_method(D_METHOD("get_cell_width"), &HellStormProjectileData2D::get_cell_width);
+	ClassDB::bind_method(D_METHOD("set_cell_height", "height"), &HellStormProjectileData2D::set_cell_height);
+	ClassDB::bind_method(D_METHOD("get_cell_height"), &HellStormProjectileData2D::get_cell_height);
+	ClassDB::bind_method(D_METHOD("set_cell_count", "count"), &HellStormProjectileData2D::set_cell_count);
+	ClassDB::bind_method(D_METHOD("get_cell_count"), &HellStormProjectileData2D::get_cell_count);
+	ClassDB::bind_method(D_METHOD("set_current_cell", "cell"), &HellStormProjectileData2D::set_current_cell);
+	ClassDB::bind_method(D_METHOD("get_current_cell"), &HellStormProjectileData2D::get_current_cell);
+	ClassDB::bind_method(D_METHOD("set_animation_speed", "speed"), &HellStormProjectileData2D::set_animation_speed);
+	ClassDB::bind_method(D_METHOD("get_animation_speed"), &HellStormProjectileData2D::get_animation_speed);
+	ClassDB::bind_method(D_METHOD("set_enable_animation_loop", "loop"), &HellStormProjectileData2D::set_enable_animation_loop);
+	ClassDB::bind_method(D_METHOD("get_enable_animation_loop"), &HellStormProjectileData2D::get_enable_animation_loop);
 	ClassDB::bind_method(D_METHOD("set_initial_angle", "speed"), &HellStormProjectileData2D::set_initial_angle);
 	ClassDB::bind_method(D_METHOD("get_initial_angle"), &HellStormProjectileData2D::get_initial_angle);
 
@@ -43,8 +55,14 @@ void HellStormProjectileData2D::_bind_methods() {
 
 	// Display
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_texture", "get_texture");
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "set_material", "get_material");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "initial_angle"), "set_initial_angle", "get_initial_angle");
+
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "Display/material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "set_material", "get_material");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "Display/cell_width"), "set_cell_width", "get_cell_width");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "Display/cell_height"), "set_cell_height", "get_cell_height");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "Display/current_cell"), "set_current_cell", "get_current_cell");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Display/animation_speed"), "set_animation_speed", "get_animation_speed");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Display/animation_loop"), "set_enable_animation_loop", "get_enable_animation_loop");
 
 	// Motion
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/initial_linear_speed"), "set_initial_linear_speed", "get_initial_linear_speed");
@@ -68,6 +86,16 @@ void HellStormProjectileData2D::_bind_methods() {
 // Display
 void HellStormProjectileData2D::set_texture(const Ref<Texture2D> &p_texture) {
 	_texture = p_texture;
+
+	_on_texture_update();
+}
+
+void HellStormProjectileData2D::_on_texture_update() {
+	if (!_texture.is_null()) {
+		_cell_width = _texture->get_size().x;
+		_cell_height = _texture->get_size().y;
+		_current_cell = 1;
+	}
 }
 
 Ref<Texture2D> HellStormProjectileData2D::get_texture() const  {
@@ -80,6 +108,55 @@ void HellStormProjectileData2D::set_material(const Ref<Material> &p_material) {
 
 Ref<Material> HellStormProjectileData2D::get_material() const  {
 	return _material;
+}
+
+void HellStormProjectileData2D::set_cell_width(int p_width) {
+	_cell_width = p_width;
+	_cell_count = _texture->get_size().x / p_width;
+}
+
+int HellStormProjectileData2D::get_cell_width() const {
+	return _cell_width;
+}
+
+void HellStormProjectileData2D::set_cell_height(int p_height) {
+	_cell_height = p_height;
+}
+
+int HellStormProjectileData2D::get_cell_height() const {
+	return _cell_height;
+}
+
+void HellStormProjectileData2D::set_cell_count(int p_count) {
+	_cell_count = p_count;
+}
+
+int HellStormProjectileData2D::get_cell_count() const {
+	return _cell_count;
+}
+
+void HellStormProjectileData2D::set_current_cell(int p_cell) {
+	_current_cell = p_cell;
+}
+
+int HellStormProjectileData2D::get_current_cell() const {
+	return _current_cell;
+}
+
+void HellStormProjectileData2D::set_animation_speed(float p_speed) {
+	_animation_speed = p_speed;
+}
+
+float HellStormProjectileData2D::get_animation_speed() const {
+	return _animation_speed;
+}
+
+void HellStormProjectileData2D::set_enable_animation_loop(bool p_loop) {
+	_enable_animation_loop = p_loop;
+}
+
+bool HellStormProjectileData2D::get_enable_animation_loop() const {
+	return _enable_animation_loop;
 }
 
 void HellStormProjectileData2D::set_initial_angle(const float p_angle) {
@@ -189,10 +266,14 @@ Dictionary HellStormProjectileData2D::get_meta() const {
 }
 
 HellStormProjectileData2D::HellStormProjectileData2D() {
+	_on_texture_update();
+
 	_initial_linear_speed = 0;
 	_min_linear_speed = 0;
 	_max_linear_speed = 1200;
 	_acceleration = 200;
+	_animation_speed = 0;
+	_enable_animation_loop = true;
 
 	_collision_mask = 1;
 	_collide_with_bodies = true;

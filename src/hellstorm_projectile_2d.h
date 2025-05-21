@@ -29,11 +29,14 @@ class HellStormProjectile2D {
 		Ref<PhysicsShapeQueryParameters2D> _physics_query;
 
 		double _lifetime = 0;
+		double _animation_timer = 0;
 		bool _is_queued_for_deletion = false;
+		unsigned int _current_cell = 0;
 
 		void _projectile_draw(const int p_idx, const double p_delta);
 		void _check_for_collisions();
 		void _handle_collision(const Dictionary &p_hit);
+		void _update_texture_region();
 
 	public:
 		RID rid;
