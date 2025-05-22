@@ -20,8 +20,10 @@ void HellStormProjectile2D::instantiate() {
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
 	_check_for_collisions();
 
-	float linear_speed = data->get_initial_linear_speed() + data->get_acceleration() * _lifetime;
-	linear_speed = std::clamp(linear_speed, data->get_initial_linear_speed(), data->get_max_linear_speed());
+	_handle_projectile_rotation(p_delta);
+
+	float linear_speed = data->get_trajectory_config()->get_initial_speed() + data->get_trajectory_config()->get_acceleration() * _lifetime;
+	linear_speed = std::clamp(linear_speed, data->get_trajectory_config()->get_min_speed(), data->get_trajectory_config()->get_max_speed());
 
 	auto new_origin = transform.get_origin() + transform[0] * linear_speed * p_delta;
 	transform.set_origin(new_origin);
@@ -30,6 +32,39 @@ void HellStormProjectile2D::projectile_process(const int p_idx, const double p_d
 	_animation_timer += p_delta;
 
 	_projectile_draw(p_idx, p_delta);
+}
+
+void HellStormProjectile2D::_handle_projectile_rotation(const double p_delta) {
+	switch (data->get_trajectory_config()->get_type()) {
+		case HellStormTrajectory2D::TrajectoryType2D::TRAJECTORY_LINEAR: {
+			// Linear motion does not require any rotation
+			break;
+		}
+		case HellStormTrajectory2D::TrajectoryType2D::TRAJECTORY_SINUSOIDAL: {
+			auto config = Object::cast_to<SinusoidalTrajectoryConfig2D>(*data->get_trajectory_config());
+
+			double current_angle = Math::sin(_lifetime * config->get_mod() + config->get_offset());
+			double previous_angle = Math::sin((_lifetime - p_delta) * config->get_mod() + config->get_offset());
+			double diff_angle = current_angle - previous_angle;
+
+			transform = transform.rotated_local(diff_angle);
+			break;
+		}
+		case HellStormTrajectory2D::TrajectoryType2D::TRAJECTORY_CURVED: {
+			auto config = Object::cast_to<CurvedTrajectoryConfig2D>(*data->get_trajectory_config());
+
+			float current_angle = _lifetime * config->get_angular_speed();
+			float previous_angle = (_lifetime - p_delta) * config->get_angular_speed();
+			float diff_angle = current_angle - previous_angle;
+
+			transform = transform.rotated_local(diff_angle);
+			break;
+		}
+		default: {
+			WARN_PRINT("[HellStorm] Unsupported trajectory type!");
+			break;
+		}
+	}
 }
 
 void HellStormProjectile2D::_projectile_draw(const int p_idx, const double p_delta) {

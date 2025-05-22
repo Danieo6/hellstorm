@@ -1,5 +1,7 @@
 #pragma once
 
+#include "./hellstorm_projectile_trajectory_config_2d.h"
+
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/classes/texture2d.hpp>
 #include <godot_cpp/classes/material.hpp>
@@ -9,35 +11,6 @@ using namespace godot;
 
 class HellStormProjectileData2D : public Resource {
 	GDCLASS(HellStormProjectileData2D, Resource);
-
-	private:
-		Ref<Texture2D> _texture;
-
-		Ref<Material> _material;
-		int _cell_width;
-		int _cell_height;
-		int _cell_count;
-		int _current_cell;
-		float _initial_angle;
-		float _animation_speed;
-		bool _enable_animation_loop;
-
-		float _initial_linear_speed;
-		float _min_linear_speed;
-		float _max_linear_speed;
-		float _acceleration;
-		float _local_rotation_speed;
-
-		Ref<Shape2D> _collision_shape;
-		unsigned int _collision_mask;
-		bool _collide_with_bodies;
-		bool _collide_with_areas;
-		bool _enable_interpolation;
-
-		StringName _hit_callback_name;
-		Dictionary _meta;
-
-		void _on_texture_update();
 
 	protected:
 		static void _bind_methods();
@@ -70,17 +43,8 @@ class HellStormProjectileData2D : public Resource {
 		void set_initial_angle(const float p_angle);
 		float get_initial_angle() const;
 
-		void set_initial_linear_speed(const float p_speed);
-		float get_initial_linear_speed() const;
-
-		void set_min_linear_speed(const float p_speed);
-		float get_min_linear_speed() const;
-
-		void set_max_linear_speed(const float p_speed);
-		float get_max_linear_speed() const;
-
-		void set_acceleration(const float p_acceleration);
-		float get_acceleration() const;
+		void set_trajectory_config(const Ref<LinearTrajectoryConfig2D> &p_config);
+		Ref<LinearTrajectoryConfig2D> get_trajectory_config() const;
 
 		void set_local_rotation_speed(const float p_local_rotation_speed);
 		float get_local_rotation_speed() const;
@@ -108,4 +72,30 @@ class HellStormProjectileData2D : public Resource {
 
 		HellStormProjectileData2D();
 		~HellStormProjectileData2D();
+
+	private:
+		Ref<Texture2D> _texture;
+
+		Ref<Material> _material;
+		int _cell_width;
+		int _cell_height;
+		int _cell_count;
+		int _current_cell;
+		float _initial_angle;
+		float _animation_speed;
+		bool _enable_animation_loop;
+
+		Ref<LinearTrajectoryConfig2D> _trajectory_config;
+		float _local_rotation_speed;
+
+		Ref<Shape2D> _collision_shape;
+		unsigned int _collision_mask;
+		bool _collide_with_bodies;
+		bool _collide_with_areas;
+		bool _enable_interpolation;
+
+		StringName _hit_callback_name;
+		Dictionary _meta;
+
+		void _on_texture_update();
 };

@@ -7,6 +7,7 @@
 
 #include "hellstorm_server_2d.h"
 #include "hellstorm_projectile_data_2d.h"
+#include "hellstorm_projectile_trajectory_config_2d.h"
 
 using namespace godot;
 
@@ -18,6 +19,9 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 
 	GDREGISTER_CLASS(HellStormServer2D);
 	GDREGISTER_CLASS(HellStormProjectileData2D);
+	GDREGISTER_CLASS(LinearTrajectoryConfig2D);
+	GDREGISTER_CLASS(SinusoidalTrajectoryConfig2D);
+	GDREGISTER_CLASS(CurvedTrajectoryConfig2D);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {

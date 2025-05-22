@@ -37,6 +37,7 @@ class HellStormProjectile2D {
 		void _check_for_collisions();
 		void _handle_collision(const Dictionary &p_hit);
 		void _update_texture_region();
+		void _handle_projectile_rotation(const double p_delta);
 
 	public:
 		RID rid;

@@ -24,14 +24,8 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_initial_angle"), &HellStormProjectileData2D::get_initial_angle);
 
 	// Motion
-	ClassDB::bind_method(D_METHOD("set_initial_linear_speed", "speed"), &HellStormProjectileData2D::set_initial_linear_speed);
-	ClassDB::bind_method(D_METHOD("get_initial_linear_speed"), &HellStormProjectileData2D::get_initial_linear_speed);
-	ClassDB::bind_method(D_METHOD("set_min_linear_speed", "speed"), &HellStormProjectileData2D::set_min_linear_speed);
-	ClassDB::bind_method(D_METHOD("get_min_linear_speed"), &HellStormProjectileData2D::get_min_linear_speed);
-	ClassDB::bind_method(D_METHOD("set_max_linear_speed", "speed"), &HellStormProjectileData2D::set_max_linear_speed);
-	ClassDB::bind_method(D_METHOD("get_max_linear_speed"), &HellStormProjectileData2D::get_max_linear_speed);
-	ClassDB::bind_method(D_METHOD("set_acceleration", "acceleration"), &HellStormProjectileData2D::set_acceleration);
-	ClassDB::bind_method(D_METHOD("get_acceleration"), &HellStormProjectileData2D::get_acceleration);
+	ClassDB::bind_method(D_METHOD("set_trajectory_config", "config"), &HellStormProjectileData2D::set_trajectory_config);
+	ClassDB::bind_method(D_METHOD("get_trajectory_config"), &HellStormProjectileData2D::get_trajectory_config);
 	ClassDB::bind_method(D_METHOD("set_local_rotation_speed", "rotation_speed"), &HellStormProjectileData2D::set_local_rotation_speed);
 	ClassDB::bind_method(D_METHOD("get_local_rotation_speed"), &HellStormProjectileData2D::get_local_rotation_speed);
 
@@ -65,10 +59,7 @@ void HellStormProjectileData2D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Display/animation_loop"), "set_enable_animation_loop", "get_enable_animation_loop");
 
 	// Motion
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/initial_linear_speed"), "set_initial_linear_speed", "get_initial_linear_speed");
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/min_linear_speed"), "set_min_linear_speed", "get_min_linear_speed");
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/max_linear_speed"), "set_max_linear_speed", "get_max_linear_speed");
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/acceleration"), "set_acceleration", "get_acceleration");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "Motion/trajectory_config", PROPERTY_HINT_RESOURCE_TYPE, "LinearTrajectoryConfig2D"), "set_trajectory_config", "get_trajectory_config");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Motion/local_rotation_speed"), "set_local_rotation_speed", "get_local_rotation_speed");
 
 	// Physics
@@ -168,36 +159,12 @@ float HellStormProjectileData2D::get_initial_angle() const {
 }
 
 // Motion
-void HellStormProjectileData2D::set_initial_linear_speed(const float p_speed) {
-	_initial_linear_speed = p_speed;
+void HellStormProjectileData2D::set_trajectory_config(const Ref<LinearTrajectoryConfig2D> &p_config) {
+	_trajectory_config = p_config;
 }
 
-float HellStormProjectileData2D::get_initial_linear_speed() const {
-	return _initial_linear_speed;
-}
-
-void HellStormProjectileData2D::set_min_linear_speed(const float p_speed) {
-	_min_linear_speed = p_speed;
-}
-
-float HellStormProjectileData2D::get_min_linear_speed() const {
-	return _max_linear_speed;
-}
-
-void HellStormProjectileData2D::set_max_linear_speed(const float p_speed) {
-	_max_linear_speed = p_speed;
-}
-
-float HellStormProjectileData2D::get_max_linear_speed() const {
-	return _max_linear_speed;
-}
-
-void HellStormProjectileData2D::set_acceleration(const float p_acceleration) {
-	_acceleration = p_acceleration;
-}
-
-float HellStormProjectileData2D::get_acceleration() const {
-	return _acceleration;
+Ref<LinearTrajectoryConfig2D> HellStormProjectileData2D::get_trajectory_config() const {
+	return _trajectory_config;
 }
 
 void HellStormProjectileData2D::set_local_rotation_speed(const float p_local_rotation_speed) {
@@ -268,10 +235,6 @@ Dictionary HellStormProjectileData2D::get_meta() const {
 HellStormProjectileData2D::HellStormProjectileData2D() {
 	_on_texture_update();
 
-	_initial_linear_speed = 0;
-	_min_linear_speed = 0;
-	_max_linear_speed = 1200;
-	_acceleration = 200;
 	_animation_speed = 0;
 	_enable_animation_loop = true;
 
