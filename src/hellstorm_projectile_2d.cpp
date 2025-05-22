@@ -18,6 +18,12 @@ void HellStormProjectile2D::instantiate() {
 }
 
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
+	auto destroy_after = data->get_destroy_after_time();
+	if (data->get_enable_destroy_after_time() && _lifetime > destroy_after) {
+		destroy();
+		return;
+	}
+
 	_check_for_collisions();
 
 	_handle_projectile_rotation(p_delta);

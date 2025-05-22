@@ -70,6 +70,12 @@ class HellStormProjectileData2D : public Resource {
 		void set_meta(const Dictionary p_meta);
 		Dictionary get_meta() const;
 
+		void set_enable_destroy_after_time(const bool p_value);
+		bool get_enable_destroy_after_time() const;
+
+		void set_destroy_after_time(const double p_time);
+		double get_destroy_after_time() const;
+
 		HellStormProjectileData2D();
 		~HellStormProjectileData2D();
 
@@ -95,6 +101,8 @@ class HellStormProjectileData2D : public Resource {
 		bool _enable_interpolation;
 
 		StringName _hit_callback_name;
+		bool _enable_destroy_after_time;
+		float _destroy_after_time;
 		Dictionary _meta;
 
 		void _on_texture_update();

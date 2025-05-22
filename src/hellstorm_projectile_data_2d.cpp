@@ -46,6 +46,10 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_hit_callback_name"), &HellStormProjectileData2D::get_hit_callback_name);
 	ClassDB::bind_method(D_METHOD("set_meta", "meta"), &HellStormProjectileData2D::set_meta);
 	ClassDB::bind_method(D_METHOD("get_meta"), &HellStormProjectileData2D::get_meta);
+	ClassDB::bind_method(D_METHOD("set_enable_destroy_after_time", "enable"), &HellStormProjectileData2D::set_enable_destroy_after_time);
+	ClassDB::bind_method(D_METHOD("get_enable_destroy_after_time"), &HellStormProjectileData2D::get_enable_destroy_after_time);
+	ClassDB::bind_method(D_METHOD("set_destroy_after_time", "time"), &HellStormProjectileData2D::set_destroy_after_time);
+	ClassDB::bind_method(D_METHOD("get_destroy_after_time"), &HellStormProjectileData2D::get_destroy_after_time);
 
 	// Display
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_texture", "get_texture");
@@ -72,6 +76,8 @@ void HellStormProjectileData2D::_bind_methods() {
 	// Behaviour
 	ADD_PROPERTY(PropertyInfo(Variant::STRING_NAME, "Behaviour/hit_callback_name"), "set_hit_callback_name", "get_hit_callback_name");
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "Behaviour/meta"), "set_meta", "get_meta");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_destroy_after_time"), "set_enable_destroy_after_time", "get_enable_destroy_after_time");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Behaviour/destroy_after_time"), "set_destroy_after_time", "get_destroy_after_time");
 }
 
 // Display
@@ -232,6 +238,22 @@ Dictionary HellStormProjectileData2D::get_meta() const {
 	return _meta;
 }
 
+void HellStormProjectileData2D::set_enable_destroy_after_time(const bool p_value) {
+	_enable_destroy_after_time = p_value;
+}
+
+bool HellStormProjectileData2D::get_enable_destroy_after_time() const {
+	return _enable_destroy_after_time;
+}
+
+void HellStormProjectileData2D::set_destroy_after_time(const double p_time) {
+	_destroy_after_time = p_time;
+}
+
+double HellStormProjectileData2D::get_destroy_after_time() const {
+	return _destroy_after_time;
+}
+
 HellStormProjectileData2D::HellStormProjectileData2D() {
 	_on_texture_update();
 
@@ -244,6 +266,8 @@ HellStormProjectileData2D::HellStormProjectileData2D() {
 
 	_hit_callback_name = "_on_hellstorm_projectile_hit";
 	_enable_interpolation = true;
+	_enable_destroy_after_time = false;
+	_destroy_after_time = 0.0;
 }
 
 HellStormProjectileData2D::~HellStormProjectileData2D() {}
