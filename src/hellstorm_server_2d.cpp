@@ -4,6 +4,8 @@ void HellStormServer2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("initialize", "canvas", "space"), &HellStormServer2D::initialize);
 	ClassDB::bind_method(D_METHOD("spawn_projectile", "HellStormProjectileData2D", "transform"), &HellStormServer2D::spawn_projectile);
 	ClassDB::bind_method(D_METHOD("get_projectiles_count"), &HellStormServer2D::get_projectiles_count);
+	ClassDB::bind_method(D_METHOD("set_boundary", "boundary"), &HellStormServer2D::set_boundary);
+	ClassDB::bind_method(D_METHOD("get_boundary"), &HellStormServer2D::get_boundary);
 }
 
 void HellStormServer2D::_notification(const int p_what) {
