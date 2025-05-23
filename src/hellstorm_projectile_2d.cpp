@@ -1,3 +1,4 @@
+#include "hellstorm_server_2d.h"
 #include "./hellstorm_projectile_2d.h"
 
 void HellStormProjectile2D::instantiate() {
@@ -33,6 +34,12 @@ void HellStormProjectile2D::projectile_process(const int p_idx, const double p_d
 
 	auto new_origin = transform.get_origin() + transform[0] * linear_speed * p_delta;
 	transform.set_origin(new_origin);
+
+	auto boundary = HellStormServer2D::get_instance()->get_boundary();
+	if (data->get_enable_destroy_after_boundary_leave() && !boundary.has_point(transform.get_origin())) {
+		destroy();
+		return;
+	}
 
 	_lifetime += p_delta;
 	_animation_timer += p_delta;

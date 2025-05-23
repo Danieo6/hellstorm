@@ -5,6 +5,8 @@
 using namespace godot;
 
 class HellStormTrajectory2D : public Resource {
+	GDCLASS(HellStormTrajectory2D, Resource);
+
 	public:
 		enum TrajectoryType2D {
 			TRAJECTORY_LINEAR = 0,
@@ -13,6 +15,7 @@ class HellStormTrajectory2D : public Resource {
 		};
 
 	protected:
+		static void _bind_methods();
 		TrajectoryType2D _type;
 
 	public:

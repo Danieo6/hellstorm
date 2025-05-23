@@ -60,6 +60,8 @@ void HellStormServer2D::initialize(
 	_canvas = p_canvas;
 	_space = p_space;
 
+	_boundary = this->get_viewport()->get_visible_rect();
+
 	_is_initialized = true;
 
 	set_physics_process(true);
@@ -69,6 +71,13 @@ RID HellStormServer2D::spawn_projectile(
 	const Ref<HellStormProjectileData2D> &p_projectile_data,
 	const Transform2D &p_transform
 ) {
+	if (
+		p_projectile_data->get_enable_destroy_after_boundary_leave() &&
+		!_boundary.has_point(p_transform.get_origin())
+	) {
+		return RID();
+	}
+
 	auto config = HellStormProjectileConfig2D();
 	config.transform = p_transform;
 	config.canvas = _canvas;
@@ -81,8 +90,24 @@ RID HellStormServer2D::spawn_projectile(
 	return projectile->rid;
 }
 
-int HellStormServer2D::get_projectiles_count() {
+int HellStormServer2D::get_projectiles_count() const {
 	return _projectiles.size();
 }
 
-HellStormServer2D::HellStormServer2D() {}
+void HellStormServer2D::set_boundary(const Rect2 p_boundary) {
+	_boundary = p_boundary;
+}
+
+Rect2 HellStormServer2D::get_boundary() const {
+	return _boundary;
+}
+
+HellStormServer2D *HellStormServer2D::_instance = nullptr;
+
+HellStormServer2D *HellStormServer2D::get_instance() {
+  return _instance;
+}
+
+HellStormServer2D::HellStormServer2D() {
+	_instance = this;
+}
