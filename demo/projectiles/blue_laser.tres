@@ -1,0 +1,20 @@
+[gd_resource type="HellStormProjectileData2D" load_steps=4 format=3 uid="uid://bujga780yx0bk"]
+
+[ext_resource type="Texture2D" uid="uid://ct0t3pteyxgff" path="res://assets/blue_laser.png" id="1_rx8te"]
+
+[sub_resource type="LinearTrajectoryConfig2D" id="LinearTrajectoryConfig2D_khcwj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_khcwj"]
+
+[resource]
+texture = ExtResource("1_rx8te")
+initial_angle = 90.0
+Display/cell_width = 13
+Display/cell_height = 37
+Display/current_cell = 1
+Motion/trajectory_config = SubResource("LinearTrajectoryConfig2D_khcwj")
+Physics/collision_shape = SubResource("CircleShape2D_khcwj")
+Physics/collision_mask = 2
+Behaviour/meta = {
+"name": "Blue"
+}

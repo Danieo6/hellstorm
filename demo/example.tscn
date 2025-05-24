@@ -1,46 +1,154 @@
-[gd_scene load_steps=6 format=3 uid="uid://dh0oj81pufivs"]
+[gd_scene load_steps=9 format=3 uid="uid://dh0oj81pufivs"]
 
-[ext_resource type="Script" uid="uid://c57n2cgj773tp" path="res://scripts/weapon.gd" id="1_2jas5"]
-[ext_resource type="ProjectileData" uid="uid://bujga780yx0bk" path="res://blue_laser.tres" id="2_n51mc"]
+[ext_resource type="PackedScene" uid="uid://cwlbco0xsanlf" path="res://objects/example_spawner.tscn" id="1_8lvy3"]
 [ext_resource type="Script" uid="uid://bdfwoc4pbglsh" path="res://scripts/debug_ui.gd" id="3_8lvy3"]
-[ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="4_wcwec"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ei00m"]
-size = Vector2(128, 128)
+[ext_resource type="HellStormProjectileData2D" uid="uid://8m7au6yojhdb" path="res://projectiles/curved_red_laser.tres" id="4_ugfer"]
+[ext_resource type="HellStormProjectileData2D" uid="uid://bgf78b4y40oiw" path="res://projectiles/curved_green_laser.tres" id="4_wcwec"]
+[ext_resource type="HellStormProjectileData2D" uid="uid://b7skfg7uhyah7" path="res://projectiles/sine_animated_laser.tres" id="5_ei00m"]
+[ext_resource type="HellStormProjectileData2D" uid="uid://dglid226vgnbc" path="res://projectiles/sine_animated_laser_reversed.tres" id="6_ugfer"]
+[ext_resource type="HellStormProjectileData2D" uid="uid://c8a2n5pctnxoi" path="res://projectiles/blue_laser_reversed.tres" id="7_rujmf"]
+[ext_resource type="HellStormProjectileData2D" uid="uid://dyovjefphjr40" path="res://projectiles/spinning_green_laser.tres" id="8_kkclv"]
 
 [node name="Game" type="Node2D"]
 
-[node name="ExampleSpawner" type="Node2D" parent="."]
-position = Vector2(215, 332)
-script = ExtResource("1_2jas5")
-projectile = ExtResource("2_n51mc")
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
 
-[node name="DebugUI" type="Control" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugUI" type="Control" parent="CanvasLayer"]
+z_index = 4096
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DebugUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DebugUI"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 109.0
+offset_bottom = 60.0
 script = ExtResource("3_8lvy3")
 
-[node name="FPSCounter" type="Label" parent="DebugUI/VBoxContainer"]
+[node name="FPSCounter" type="Label" parent="CanvasLayer/DebugUI/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 5
 text = "FPS: 60"
 
-[node name="ProjectileCounter" type="Label" parent="DebugUI/VBoxContainer"]
+[node name="ProjectileCounter" type="Label" parent="CanvasLayer/DebugUI/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/outline_size = 5
 text = "Projectiles: 0"
 
-[node name="Obstacle" type="StaticBody2D" parent="."]
-position = Vector2(800, 330)
-collision_layer = 2
+[node name="Curved Spawners" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="Obstacle"]
-texture = ExtResource("4_wcwec")
+[node name="A" parent="Curved Spawners" instance=ExtResource("1_8lvy3")]
+position = Vector2(-831, -576)
+projectile = ExtResource("4_ugfer")
+interval = 0.1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle"]
-shape = SubResource("RectangleShape2D_ei00m")
+[node name="B" parent="Curved Spawners" instance=ExtResource("1_8lvy3")]
+position = Vector2(-831, 576)
+projectile = ExtResource("4_wcwec")
+interval = 0.1
+
+[node name="B2" parent="Curved Spawners" instance=ExtResource("1_8lvy3")]
+position = Vector2(832, -128)
+projectile = ExtResource("4_wcwec")
+interval = 0.1
+
+[node name="A2" parent="Curved Spawners" instance=ExtResource("1_8lvy3")]
+position = Vector2(832, 128)
+projectile = ExtResource("4_ugfer")
+interval = 0.1
+
+[node name="Sine Spawners" type="Node2D" parent="."]
+
+[node name="Sine A" parent="Sine Spawners" instance=ExtResource("1_8lvy3")]
+position = Vector2(-1152, 0)
+projectile = ExtResource("5_ei00m")
+rotation_speed = 0.0
+interval = 0.15
+
+[node name="Sine B" parent="Sine Spawners" instance=ExtResource("1_8lvy3")]
+position = Vector2(1144, 0)
+projectile = ExtResource("6_ugfer")
+rotation_speed = 0.0
+interval = 0.15
+
+[node name="Linear Rotating Spawners" type="Node2D" parent="."]
+
+[node name="A" parent="Linear Rotating Spawners" instance=ExtResource("1_8lvy3")]
+rotation_speed = 360.0
+interval = 0.001
+
+[node name="B" parent="Linear Rotating Spawners" instance=ExtResource("1_8lvy3")]
+projectile = ExtResource("7_rujmf")
+initial_rotation = 90.0
+rotation_speed = -360.0
+interval = 0.001
+
+[node name="A2" parent="Linear Rotating Spawners" instance=ExtResource("1_8lvy3")]
+initial_rotation = 180.0
+rotation_speed = 360.0
+interval = 0.001
+
+[node name="B2" parent="Linear Rotating Spawners" instance=ExtResource("1_8lvy3")]
+projectile = ExtResource("7_rujmf")
+initial_rotation = 270.0
+rotation_speed = -360.0
+interval = 0.001
+
+[node name="Linear Spinning Spawner" type="Node2D" parent="."]
+
+[node name="A" parent="Linear Spinning Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(0, -640)
+projectile = ExtResource("8_kkclv")
+initial_rotation = 90.0
+rotation_speed = 0.0
+
+[node name="B" parent="Linear Spinning Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(-192, -640)
+projectile = ExtResource("8_kkclv")
+initial_rotation = 90.0
+rotation_speed = 0.0
+
+[node name="C" parent="Linear Spinning Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(192, -640)
+projectile = ExtResource("8_kkclv")
+initial_rotation = 90.0
+rotation_speed = 0.0
+
+[node name="D" parent="Linear Spinning Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(384, -640)
+projectile = ExtResource("8_kkclv")
+initial_rotation = 90.0
+rotation_speed = 0.0
+
+[node name="E" parent="Linear Spinning Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(-384, -640)
+projectile = ExtResource("8_kkclv")
+initial_rotation = 90.0
+rotation_speed = 0.0
+
+[node name="Linear Spawner" type="Node2D" parent="."]
+
+[node name="A" parent="Linear Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(-1088, -256)
+rotation_speed = 0.0
+interval = 0.001
+
+[node name="B" parent="Linear Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(-1088, 0)
+rotation_speed = 0.0
+interval = 0.001
+
+[node name="C" parent="Linear Spawner" instance=ExtResource("1_8lvy3")]
+position = Vector2(-1088, 256)
+rotation_speed = 0.0
+interval = 0.001

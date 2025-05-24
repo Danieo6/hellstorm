@@ -1,0 +1,23 @@
+[gd_resource type="HellStormProjectileData2D" load_steps=4 format=3 uid="uid://cm887pny6l4xv"]
+
+[ext_resource type="Texture2D" uid="uid://ccd0we5hg8yg" path="res://assets/green_laser.png" id="1_3tdhx"]
+
+[sub_resource type="SinusoidalTrajectoryConfig2D" id="SinusoidalTrajectoryConfig2D_3tdhx"]
+mod = 2.7
+min_speed = 600.0
+max_speed = 600.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3tdhx"]
+
+[resource]
+texture = ExtResource("1_3tdhx")
+initial_angle = 45.0
+Display/cell_width = 37
+Display/cell_height = 38
+Display/current_cell = 1
+Motion/trajectory_config = SubResource("SinusoidalTrajectoryConfig2D_3tdhx")
+Physics/collision_shape = SubResource("CircleShape2D_3tdhx")
+Physics/collision_mask = 2
+Behaviour/meta = {
+"name": "Green"
+}

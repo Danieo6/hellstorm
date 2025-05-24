@@ -1,0 +1,26 @@
+[gd_resource type="HellStormProjectileData2D" load_steps=4 format=3 uid="uid://dglid226vgnbc"]
+
+[ext_resource type="Texture2D" uid="uid://c37q8e024xumg" path="res://assets/laser_animated.png" id="1_pea4l"]
+
+[sub_resource type="SinusoidalTrajectoryConfig2D" id="SinusoidalTrajectoryConfig2D_blqbt"]
+mod = 3.6
+initial_speed = -600.0
+min_speed = -600.0
+max_speed = -600.0
+acceleration = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gkme5"]
+
+[resource]
+texture = ExtResource("1_pea4l")
+initial_angle = 1.55544e-43
+Display/cell_width = 32
+Display/cell_height = 32
+Display/current_cell = 1
+Display/animation_speed = 0.5
+Motion/trajectory_config = SubResource("SinusoidalTrajectoryConfig2D_blqbt")
+Physics/collision_shape = SubResource("CircleShape2D_gkme5")
+Physics/collision_mask = 0
+Behaviour/meta = {
+"name": "Animated"
+}
