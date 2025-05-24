@@ -35,7 +35,7 @@ void LinearTrajectoryConfig2D::set_min_speed(const float p_speed) {
 }
 
 float LinearTrajectoryConfig2D::get_min_speed() const {
-	return _max_speed;
+	return _min_speed;
 }
 
 void LinearTrajectoryConfig2D::set_max_speed(const float p_speed) {
