@@ -141,7 +141,7 @@ void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
 	Object *collider = Object::cast_to<Object>(p_hit["collider"]);
 
 	if (collider->has_method(data->get_hit_callback_name())) {
-		collider->call(data->get_hit_callback_name(), data->get_meta());
+		collider->call(data->get_hit_callback_name(), transform.get_origin(), data->get_meta());
 	}
 }
 
