@@ -79,8 +79,8 @@ class HellStormProjectileData2D : public Resource {
 		void set_destroy_after_time(const double p_time);
 		double get_destroy_after_time() const;
 
-		void set_enable_destroy_after_animation(const bool p_value);
-		bool get_enable_destroy_after_animation() const;
+		void set_enable_animation_after_destruction(const bool p_value);
+		bool get_enable_animation_after_destruction() const;
 
 		HellStormProjectileData2D();
 		~HellStormProjectileData2D();
@@ -110,7 +110,7 @@ class HellStormProjectileData2D : public Resource {
 		bool _enable_destroy_after_boundary_leave;
 		bool _enable_destroy_after_time;
 		float _destroy_after_time;
-		bool _enable_destroy_after_animation;
+		bool _enable_animation_after_destruction;
 		Dictionary _meta;
 
 		void _on_texture_update();

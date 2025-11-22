@@ -19,6 +19,11 @@ void HellStormProjectile2D::instantiate() {
 }
 
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
+	print_line(_is_queued_for_deletion);
+	print_line(_is_playing_last_animation);
+	print_line(_animation_timer);
+	print_line("----------------");
+
 	auto destroy_after = data->get_destroy_after_time();
 	if (data->get_enable_destroy_after_time() && _lifetime > destroy_after) {
 		queue_for_deletion();
@@ -48,6 +53,13 @@ void HellStormProjectile2D::projectile_process(const int p_idx, const double p_d
 }
 
 void HellStormProjectile2D::queue_for_deletion() {
+	if (data->get_enable_animation_after_destruction() && !_is_playing_last_animation) {
+		_is_playing_last_animation = true;
+		_animation_timer = 0;
+		_current_cell = 0;
+		return;
+	}
+
 	_is_queued_for_deletion = true;
 }
 
@@ -96,6 +108,21 @@ void HellStormProjectile2D::_handle_projectile_rotation(const double p_delta) {
 }
 
 void HellStormProjectile2D::_projectile_draw(const int p_idx, const double p_delta) {
+	if (_animation_timer > data->get_animation_speed()) {
+		_animation_timer = 0;
+		_current_cell += 1;
+	}
+
+	_update_texture_region();
+
+	if (_is_playing_last_animation) {
+		if (_current_cell == (data->get_cell_count() - 1)) {
+			print_line("Animation finished");
+			queue_for_deletion();
+		}
+		return;
+	}
+
 	auto rotation_speed =
 		Math::deg_to_rad(data->get_initial_angle()) +
 		Math::deg_to_rad(data->get_local_rotation_speed()) * _lifetime * p_delta;
@@ -103,12 +130,6 @@ void HellStormProjectile2D::_projectile_draw(const int p_idx, const double p_del
 	auto texture_transform = Transform2D().rotated(rotation_speed);
 	texture_transform.set_origin(transform.get_origin());
 
-	if (_animation_timer > data->get_animation_speed()) {
-		_animation_timer = 0;
-		_current_cell += 1;
-	}
-
-	_update_texture_region();
 	rs->canvas_item_set_transform(rid, texture_transform);
 	rs->canvas_item_set_draw_index(rid, p_idx);
 }
@@ -134,6 +155,10 @@ void HellStormProjectile2D::_update_texture_region() {
 }
 
 void HellStormProjectile2D::_check_for_collisions() {
+	if (_is_playing_last_animation) {
+		return;
+	}
+
 	auto space_state = ps->space_get_direct_state(_space);
 
 	_physics_query->set_transform(transform);
