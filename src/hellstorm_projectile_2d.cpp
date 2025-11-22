@@ -21,7 +21,7 @@ void HellStormProjectile2D::instantiate() {
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
 	auto destroy_after = data->get_destroy_after_time();
 	if (data->get_enable_destroy_after_time() && _lifetime > destroy_after) {
-		destroy();
+		queue_for_deletion();
 		return;
 	}
 
@@ -37,7 +37,7 @@ void HellStormProjectile2D::projectile_process(const int p_idx, const double p_d
 
 	auto boundary = HellStormServer2D::get_instance()->get_boundary();
 	if (data->get_enable_destroy_after_boundary_leave() && !boundary.has_point(transform.get_origin())) {
-		destroy();
+		queue_for_deletion();
 		return;
 	}
 
@@ -47,12 +47,26 @@ void HellStormProjectile2D::projectile_process(const int p_idx, const double p_d
 	_projectile_draw(p_idx, p_delta);
 }
 
+void HellStormProjectile2D::queue_for_deletion() {
+	_is_queued_for_deletion = true;
+}
+
+void HellStormProjectile2D::destroy() {
+	rs->canvas_item_clear(rid);
+	rs->free_rid(rid);
+}
+
+bool HellStormProjectile2D::is_queued_for_deletion() {
+	return _is_queued_for_deletion;
+}
+
 void HellStormProjectile2D::_handle_projectile_rotation(const double p_delta) {
 	switch (data->get_trajectory_config()->get_type()) {
 		case HellStormTrajectory2D::TrajectoryType2D::TRAJECTORY_LINEAR: {
 			// Linear motion does not require any rotation
 			break;
 		}
+
 		case HellStormTrajectory2D::TrajectoryType2D::TRAJECTORY_SINUSOIDAL: {
 			auto config = Object::cast_to<SinusoidalTrajectoryConfig2D>(*data->get_trajectory_config());
 
@@ -63,6 +77,7 @@ void HellStormProjectile2D::_handle_projectile_rotation(const double p_delta) {
 			transform = transform.rotated_local(diff_angle);
 			break;
 		}
+
 		case HellStormTrajectory2D::TrajectoryType2D::TRAJECTORY_CURVED: {
 			auto config = Object::cast_to<CurvedTrajectoryConfig2D>(*data->get_trajectory_config());
 
@@ -81,11 +96,6 @@ void HellStormProjectile2D::_handle_projectile_rotation(const double p_delta) {
 }
 
 void HellStormProjectile2D::_projectile_draw(const int p_idx, const double p_delta) {
-	if (_is_queued_for_deletion) {
-		destroy();
-		return;
-	}
-
 	auto rotation_speed =
 		Math::deg_to_rad(data->get_initial_angle()) +
 		Math::deg_to_rad(data->get_local_rotation_speed()) * _lifetime * p_delta;
@@ -136,23 +146,13 @@ void HellStormProjectile2D::_check_for_collisions() {
 }
 
 void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
-	_is_queued_for_deletion = true;
+	queue_for_deletion();
 
 	Object *collider = Object::cast_to<Object>(p_hit["collider"]);
 
 	if (collider->has_method(data->get_hit_callback_name())) {
 		collider->call(data->get_hit_callback_name(), transform.get_origin(), data->get_meta());
 	}
-}
-
-void HellStormProjectile2D::destroy() {
-	_is_queued_for_deletion = true;
-	rs->canvas_item_clear(rid);
-	rs->free_rid(rid);
-}
-
-bool HellStormProjectile2D::is_queued_for_deletion() {
-	return _is_queued_for_deletion;
 }
 
 HellStormProjectile2D::HellStormProjectile2D(

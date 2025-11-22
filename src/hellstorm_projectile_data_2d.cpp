@@ -52,6 +52,8 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_enable_destroy_after_time"), &HellStormProjectileData2D::get_enable_destroy_after_time);
 	ClassDB::bind_method(D_METHOD("set_destroy_after_time", "time"), &HellStormProjectileData2D::set_destroy_after_time);
 	ClassDB::bind_method(D_METHOD("get_destroy_after_time"), &HellStormProjectileData2D::get_destroy_after_time);
+	ClassDB::bind_method(D_METHOD("set_enable_destroy_after_animation", "enable"), &HellStormProjectileData2D::set_enable_destroy_after_animation);
+	ClassDB::bind_method(D_METHOD("get_enable_destroy_after_animation"), &HellStormProjectileData2D::get_enable_destroy_after_animation);
 
 	// Display
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_texture", "get_texture");
@@ -81,6 +83,7 @@ void HellStormProjectileData2D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_destroy_after_boundary_leave"), "set_enable_destroy_after_boundary_leave", "get_enable_destroy_after_boundary_leave");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_destroy_after_time"), "set_enable_destroy_after_time", "get_enable_destroy_after_time");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Behaviour/destroy_after_time"), "set_destroy_after_time", "get_destroy_after_time");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_destroy_after_animation"), "set_enable_destroy_after_animation", "get_enable_destroy_after_animation");
 }
 
 // Display
@@ -225,6 +228,7 @@ bool HellStormProjectileData2D::get_enable_interpolation() const {
 	return _enable_interpolation;
 }
 
+// Behaviour
 void HellStormProjectileData2D::set_hit_callback_name(const StringName p_name) {
 	_hit_callback_name = p_name;
 }
@@ -264,6 +268,14 @@ double HellStormProjectileData2D::get_destroy_after_time() const {
 	return _destroy_after_time;
 }
 
+void HellStormProjectileData2D::set_enable_destroy_after_animation(const bool p_value) {
+	_enable_destroy_after_animation = p_value;
+}
+
+bool HellStormProjectileData2D::get_enable_destroy_after_animation() const {
+	return _enable_destroy_after_animation;
+}
+
 HellStormProjectileData2D::HellStormProjectileData2D() {
 	_on_texture_update();
 
@@ -273,12 +285,14 @@ HellStormProjectileData2D::HellStormProjectileData2D() {
 	_collision_mask = 1;
 	_collide_with_bodies = true;
 	_collide_with_areas = false;
+	_local_rotation_speed = 0;
 
 	_hit_callback_name = "_on_hellstorm_projectile_hit";
 	_enable_interpolation = true;
 	_enable_destroy_after_boundary_leave = true;
 	_enable_destroy_after_time = false;
 	_destroy_after_time = 0.0;
+	_enable_destroy_after_animation = false;
 }
 
 HellStormProjectileData2D::~HellStormProjectileData2D() {}

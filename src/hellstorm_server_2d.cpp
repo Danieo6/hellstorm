@@ -24,6 +24,7 @@ void HellStormServer2D::_server_process() {
 	for (const auto &[k, projectile] : _projectiles) {
 		if (projectile->is_queued_for_deletion()) {
 			_projectile_trash_buffer.push(projectile);
+			projectile->destroy();
 			continue;
 		}
 

@@ -32,6 +32,9 @@ class HellStormProjectile2D {
 		double _animation_timer = 0;
 		bool _is_queued_for_deletion = false;
 		unsigned int _current_cell = 0;
+		bool _can_hurt = true;
+		bool _is_current_animation_finishing = false;
+		bool _is_playing_last_animation = false;
 
 		void _projectile_draw(const int p_idx, const double p_delta);
 		void _check_for_collisions();
@@ -46,6 +49,7 @@ class HellStormProjectile2D {
 
 		void instantiate();
 		void destroy();
+		void queue_for_deletion();
 		bool is_queued_for_deletion();
 		void projectile_process(const int p_idx, const double p_delta);
 
