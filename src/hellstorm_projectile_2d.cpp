@@ -9,6 +9,7 @@ void HellStormProjectile2D::instantiate() {
 	rs->canvas_item_set_parent(rid, _canvas);
 	rs->canvas_item_set_transform(rid, transform);
 	rs->canvas_item_set_interpolated(rid, data->get_enable_interpolation());
+	rs->canvas_item_set_z_index(rid, data->get_z_index());
 
 	_physics_query = Ref(memnew(PhysicsShapeQueryParameters2D));
 	_physics_query->set_shape_rid(data->get_collision_shape()->get_rid());
@@ -112,7 +113,6 @@ void HellStormProjectile2D::_projectile_draw(const int p_idx, const double p_del
 
 	if (_is_playing_last_animation) {
 		if (_current_cell == (data->get_cell_count() - 1)) {
-			print_line("Animation finished");
 			queue_for_deletion();
 		}
 		return;

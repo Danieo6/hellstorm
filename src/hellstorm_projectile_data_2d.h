@@ -43,6 +43,9 @@ class HellStormProjectileData2D : public Resource {
 		void set_initial_angle(const float p_angle);
 		float get_initial_angle() const;
 
+		void set_z_index(const int p_zindex);
+		int get_z_index() const;
+
 		void set_trajectory_config(const Ref<LinearTrajectoryConfig2D> &p_config);
 		Ref<LinearTrajectoryConfig2D> get_trajectory_config() const;
 
@@ -93,6 +96,7 @@ class HellStormProjectileData2D : public Resource {
 		int _cell_height;
 		int _cell_count;
 		int _current_cell;
+		int _z_index;
 		float _initial_angle;
 		float _animation_speed;
 		bool _enable_animation_loop;
