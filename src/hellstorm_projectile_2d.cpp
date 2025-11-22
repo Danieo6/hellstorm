@@ -19,11 +19,6 @@ void HellStormProjectile2D::instantiate() {
 }
 
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
-	print_line(_is_queued_for_deletion);
-	print_line(_is_playing_last_animation);
-	print_line(_animation_timer);
-	print_line("----------------");
-
 	auto destroy_after = data->get_destroy_after_time();
 	if (data->get_enable_destroy_after_time() && _lifetime > destroy_after) {
 		queue_for_deletion();
