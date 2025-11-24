@@ -22,6 +22,8 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_enable_animation_loop"), &HellStormProjectileData2D::get_enable_animation_loop);
 	ClassDB::bind_method(D_METHOD("set_initial_angle", "speed"), &HellStormProjectileData2D::set_initial_angle);
 	ClassDB::bind_method(D_METHOD("get_initial_angle"), &HellStormProjectileData2D::get_initial_angle);
+	ClassDB::bind_method(D_METHOD("set_z_index", "z_index"), &HellStormProjectileData2D::set_z_index);
+	ClassDB::bind_method(D_METHOD("get_z_index"), &HellStormProjectileData2D::get_z_index);
 
 	// Motion
 	ClassDB::bind_method(D_METHOD("set_trajectory_config", "config"), &HellStormProjectileData2D::set_trajectory_config);
@@ -65,6 +67,7 @@ void HellStormProjectileData2D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "Display/current_cell"), "set_current_cell", "get_current_cell");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Display/animation_speed"), "set_animation_speed", "get_animation_speed");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Display/animation_loop"), "set_enable_animation_loop", "get_enable_animation_loop");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "Display/z_index"), "set_z_index", "get_z_index");
 
 	// Motion
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "Motion/trajectory_config", PROPERTY_HINT_RESOURCE_TYPE, "LinearTrajectoryConfig2D"), "set_trajectory_config", "get_trajectory_config");
@@ -168,6 +171,14 @@ void HellStormProjectileData2D::set_initial_angle(const float p_angle) {
 
 float HellStormProjectileData2D::get_initial_angle() const {
 	return _initial_angle;
+}
+
+void HellStormProjectileData2D::set_z_index(const int p_zindex) {
+	_z_index = p_zindex;
+}
+
+int HellStormProjectileData2D::get_z_index() const {
+	return _z_index;
 }
 
 // Motion
@@ -281,6 +292,7 @@ HellStormProjectileData2D::HellStormProjectileData2D() {
 
 	_animation_speed = 0;
 	_enable_animation_loop = true;
+	_z_index = 0;
 
 	_collision_mask = 1;
 	_collide_with_bodies = true;
