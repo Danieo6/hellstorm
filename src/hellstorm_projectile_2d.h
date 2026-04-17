@@ -33,6 +33,7 @@ class HellStormProjectile2D {
 		bool _is_queued_for_deletion = false;
 		unsigned int _current_cell = 0;
 		bool _can_hurt = true;
+		int _pierce_count_remaining = 0;
 		bool _is_current_animation_finishing = false;
 		bool _is_playing_last_animation = false;
 

@@ -70,6 +70,9 @@ class HellStormProjectileData2D : public Resource {
 		void set_hit_callback_name(const StringName p_name);
 		StringName get_hit_callback_name() const;
 
+		void set_pierce_count(int p_count);
+		int get_pierce_count() const;
+
 		void set_meta(const Dictionary p_meta);
 		Dictionary get_meta() const;
 
@@ -111,6 +114,7 @@ class HellStormProjectileData2D : public Resource {
 		bool _enable_interpolation;
 
 		StringName _hit_callback_name;
+		int _pierce_count;
 		bool _enable_destroy_after_boundary_leave;
 		bool _enable_destroy_after_time;
 		float _destroy_after_time;

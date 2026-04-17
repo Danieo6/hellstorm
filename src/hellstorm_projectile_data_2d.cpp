@@ -56,6 +56,8 @@ void HellStormProjectileData2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_destroy_after_time"), &HellStormProjectileData2D::get_destroy_after_time);
 	ClassDB::bind_method(D_METHOD("set_enable_animation_after_destruction", "enable"), &HellStormProjectileData2D::set_enable_animation_after_destruction);
 	ClassDB::bind_method(D_METHOD("get_enable_animation_after_destruction"), &HellStormProjectileData2D::get_enable_animation_after_destruction);
+	ClassDB::bind_method(D_METHOD("set_pierce_count", "count"), &HellStormProjectileData2D::set_pierce_count);
+	ClassDB::bind_method(D_METHOD("get_pierce_count"), &HellStormProjectileData2D::get_pierce_count);
 
 	// Display
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_texture", "get_texture");
@@ -87,6 +89,7 @@ void HellStormProjectileData2D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_destroy_after_time"), "set_enable_destroy_after_time", "get_enable_destroy_after_time");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Behaviour/destroy_after_time"), "set_destroy_after_time", "get_destroy_after_time");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_animation_after_destruction"), "set_enable_animation_after_destruction", "get_enable_animation_after_destruction");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "Behaviour/pierce_count", PROPERTY_HINT_RANGE, "-1,100,1"), "set_pierce_count", "get_pierce_count");
 }
 
 // Display
@@ -287,6 +290,14 @@ bool HellStormProjectileData2D::get_enable_animation_after_destruction() const {
 	return _enable_animation_after_destruction;
 }
 
+void HellStormProjectileData2D::set_pierce_count(int p_count) {
+	_pierce_count = p_count;
+}
+
+int HellStormProjectileData2D::get_pierce_count() const {
+	return _pierce_count;
+}
+
 HellStormProjectileData2D::HellStormProjectileData2D() {
 	_on_texture_update();
 
@@ -300,6 +311,7 @@ HellStormProjectileData2D::HellStormProjectileData2D() {
 	_local_rotation_speed = 0;
 
 	_hit_callback_name = "_on_hellstorm_projectile_hit";
+	_pierce_count = 0;
 	_enable_interpolation = true;
 	_enable_destroy_after_boundary_leave = true;
 	_enable_destroy_after_time = false;

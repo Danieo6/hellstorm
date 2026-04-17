@@ -162,16 +162,27 @@ void HellStormProjectile2D::_check_for_collisions() {
 
 	for (int i = 0; i < collisions.size(); ++i) {
 		_handle_collision(collisions[i]);
+		if (_is_queued_for_deletion) {
+			break;
+		}
 	}
 }
 
 void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
-	queue_for_deletion();
-
 	Object *collider = Object::cast_to<Object>(p_hit["collider"]);
 
 	if (collider->has_method(data->get_hit_callback_name())) {
 		collider->call(data->get_hit_callback_name(), transform.get_origin(), data->get_meta());
+	}
+
+	Array exclude = _physics_query->get_exclude();
+	exclude.append(p_hit["rid"]);
+	_physics_query->set_exclude(exclude);
+
+	if (_pierce_count_remaining == 0) {
+		queue_for_deletion();
+	} else if (_pierce_count_remaining > 0) {
+		_pierce_count_remaining--;
 	}
 }
 
@@ -189,6 +200,7 @@ HellStormProjectile2D::HellStormProjectile2D(
 	_canvas = p_projectile_config.canvas;
 	_space = p_projectile_config.space;
 	_current_cell = p_projectile_data->get_current_cell();
+	_pierce_count_remaining = p_projectile_data->get_pierce_count();
 	_rect = Rect2(
 		-Vector2(data->get_cell_width(), data->get_cell_height()) / 2.0,
 		Vector2(data->get_cell_width(), data->get_cell_height())
