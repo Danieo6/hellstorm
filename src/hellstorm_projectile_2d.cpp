@@ -17,6 +17,9 @@ void HellStormProjectile2D::instantiate() {
 	_physics_query->set_collide_with_bodies(data->get_collide_with_bodies());
 	_physics_query->set_collide_with_areas(data->get_collide_with_areas());
 	_physics_query->set_transform(transform);
+	if (!_initial_exclude.is_empty()) {
+		_physics_query->set_exclude(_initial_exclude);
+	}
 }
 
 void HellStormProjectile2D::projectile_process(const int p_idx, const double p_delta) {
@@ -54,6 +57,21 @@ void HellStormProjectile2D::queue_for_deletion() {
 		_animation_timer = 0;
 		_current_cell = 0;
 		return;
+	}
+
+	if (!_has_split && data->get_split_count() > 0) {
+		_has_split = true;
+		int n = data->get_split_count();
+		float angle = data->get_split_angle();
+		auto server = HellStormServer2D::get_instance();
+		for (int i = 0; i < n; ++i) {
+			float offset = (-(n - 1) / 2.0f + i) * angle;
+			Transform2D split_transform(
+				transform.get_rotation() + Math::deg_to_rad(offset),
+				transform.get_origin()
+			);
+			server->spawn_split_projectile(data, split_transform, _physics_query->get_exclude());
+		}
 	}
 
 	_is_queued_for_deletion = true;
@@ -188,7 +206,8 @@ void HellStormProjectile2D::_handle_collision(const Dictionary &p_hit) {
 
 HellStormProjectile2D::HellStormProjectile2D(
 	const HellStormProjectileConfig2D &p_projectile_config,
-	const Ref<HellStormProjectileData2D> &p_projectile_data
+	const Ref<HellStormProjectileData2D> &p_projectile_data,
+	bool p_is_split
 ) {
 	rs = RenderingServer::get_singleton();
 	ps = PhysicsServer2D::get_singleton();
@@ -201,6 +220,8 @@ HellStormProjectile2D::HellStormProjectile2D(
 	_space = p_projectile_config.space;
 	_current_cell = p_projectile_data->get_current_cell();
 	_pierce_count_remaining = p_projectile_data->get_pierce_count();
+	_has_split = p_is_split;
+	_initial_exclude = p_projectile_config.initial_exclude;
 	_rect = Rect2(
 		-Vector2(data->get_cell_width(), data->get_cell_height()) / 2.0,
 		Vector2(data->get_cell_width(), data->get_cell_height())

@@ -90,6 +90,15 @@ void HellStormProjectileData2D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Behaviour/destroy_after_time"), "set_destroy_after_time", "get_destroy_after_time");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "Behaviour/enable_animation_after_destruction"), "set_enable_animation_after_destruction", "get_enable_animation_after_destruction");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "Behaviour/pierce_count", PROPERTY_HINT_RANGE, "-1,100,1"), "set_pierce_count", "get_pierce_count");
+
+	// Split
+	ClassDB::bind_method(D_METHOD("set_split_count", "count"), &HellStormProjectileData2D::set_split_count);
+	ClassDB::bind_method(D_METHOD("get_split_count"), &HellStormProjectileData2D::get_split_count);
+	ClassDB::bind_method(D_METHOD("set_split_angle", "angle"), &HellStormProjectileData2D::set_split_angle);
+	ClassDB::bind_method(D_METHOD("get_split_angle"), &HellStormProjectileData2D::get_split_angle);
+
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "Split/split_count", PROPERTY_HINT_RANGE, "0,100,1"), "set_split_count", "get_split_count");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Split/split_angle"), "set_split_angle", "get_split_angle");
 }
 
 // Display
@@ -298,6 +307,22 @@ int HellStormProjectileData2D::get_pierce_count() const {
 	return _pierce_count;
 }
 
+void HellStormProjectileData2D::set_split_count(int p_count) {
+	_split_count = p_count;
+}
+
+int HellStormProjectileData2D::get_split_count() const {
+	return _split_count;
+}
+
+void HellStormProjectileData2D::set_split_angle(float p_angle) {
+	_split_angle = p_angle;
+}
+
+float HellStormProjectileData2D::get_split_angle() const {
+	return _split_angle;
+}
+
 HellStormProjectileData2D::HellStormProjectileData2D() {
 	_on_texture_update();
 
@@ -317,6 +342,8 @@ HellStormProjectileData2D::HellStormProjectileData2D() {
 	_enable_destroy_after_time = false;
 	_destroy_after_time = 0.0;
 	_enable_animation_after_destruction = false;
+	_split_count = 0;
+	_split_angle = 30.0f;
 }
 
 HellStormProjectileData2D::~HellStormProjectileData2D() {}

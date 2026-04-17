@@ -93,6 +93,31 @@ RID HellStormServer2D::spawn_projectile(
 	return projectile->rid;
 }
 
+RID HellStormServer2D::spawn_split_projectile(
+	const Ref<HellStormProjectileData2D> &p_projectile_data,
+	const Transform2D &p_transform,
+	const Array &p_exclude
+) {
+	if (
+		p_projectile_data->get_enable_destroy_after_boundary_leave() &&
+		!_boundary.has_point(p_transform.get_origin())
+	) {
+		return RID();
+	}
+
+	auto config = HellStormProjectileConfig2D();
+	config.transform = p_transform;
+	config.canvas = _canvas;
+	config.space = _space;
+	config.initial_exclude = p_exclude;
+
+	auto projectile = new HellStormProjectile2D(config, p_projectile_data, true);
+
+	_projectile_buffer.push(projectile);
+
+	return projectile->rid;
+}
+
 int HellStormServer2D::get_projectiles_count() const {
 	return _projectiles.size();
 }

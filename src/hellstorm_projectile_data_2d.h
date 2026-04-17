@@ -88,6 +88,12 @@ class HellStormProjectileData2D : public Resource {
 		void set_enable_animation_after_destruction(const bool p_value);
 		bool get_enable_animation_after_destruction() const;
 
+		void set_split_count(int p_count);
+		int get_split_count() const;
+
+		void set_split_angle(float p_angle);
+		float get_split_angle() const;
+
 		HellStormProjectileData2D();
 		~HellStormProjectileData2D();
 
@@ -119,6 +125,8 @@ class HellStormProjectileData2D : public Resource {
 		bool _enable_destroy_after_time;
 		float _destroy_after_time;
 		bool _enable_animation_after_destruction;
+		int _split_count;
+		float _split_angle;
 		Dictionary _meta;
 
 		void _on_texture_update();

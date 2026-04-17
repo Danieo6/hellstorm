@@ -54,5 +54,11 @@ class HellStormServer2D : public Node {
 
 		Rect2 get_boundary() const;
 
+		RID spawn_split_projectile(
+			const Ref<HellStormProjectileData2D> &p_projectile_data,
+			const Transform2D &p_transform,
+			const Array &p_exclude
+		);
+
 		HellStormServer2D();
 };

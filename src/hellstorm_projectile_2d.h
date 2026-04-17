@@ -4,6 +4,7 @@
 
 #include <godot_cpp/core/math.hpp>
 #include <godot_cpp/variant/rid.hpp>
+#include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/classes/rendering_server.hpp>
 #include <godot_cpp/classes/physics_server2d.hpp>
 #include <godot_cpp/classes/physics_direct_space_state2d.hpp>
@@ -17,6 +18,7 @@ struct HellStormProjectileConfig2D {
 	Transform2D transform;
 	RID canvas;
 	RID space;
+	Array initial_exclude;
 };
 
 class HellStormProjectile2D {
@@ -36,6 +38,8 @@ class HellStormProjectile2D {
 		int _pierce_count_remaining = 0;
 		bool _is_current_animation_finishing = false;
 		bool _is_playing_last_animation = false;
+		bool _has_split = false;
+		Array _initial_exclude;
 
 		void _projectile_draw(const int p_idx, const double p_delta);
 		void _check_for_collisions();
@@ -56,6 +60,7 @@ class HellStormProjectile2D {
 
 		HellStormProjectile2D(
 				const HellStormProjectileConfig2D &p_projectile_config,
-				const Ref<HellStormProjectileData2D> &p_projectile_data);
+				const Ref<HellStormProjectileData2D> &p_projectile_data,
+				bool p_is_split = false);
 		~HellStormProjectile2D();
 };
